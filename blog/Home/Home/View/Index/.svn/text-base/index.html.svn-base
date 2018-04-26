@@ -1,0 +1,105 @@
+<include file="Public/Home/tpl/header.html" />
+<include file="Public/Home/tpl/header-nav.html" />
+<style type="text/css">
+	.blog-main{
+		padding-right:20px;
+	}
+	.text-justify{
+		padding-top:10px;
+	}
+	#articlerow{
+		-moz-box-shadow: 3px 3px 4px #aaaaaa; /* 老的 Firefox */
+		box-shadow:3px 3px 4px #aaaaaa;
+		margin-bottom:40px;
+	}
+</style>
+		<div class="row" >
+			<div class="col-sm-9 blog-main">
+			
+					<!--//板块-->
+					<!--{<if condition="$articlelist neq null" >}-->
+					<!--{$articlelist}-->
+					<!--{<else/>}-->
+						<div class="panel panel-default">
+						  <div class="panel-body">
+							<h3>暂无文章</h3>
+						  </div>
+						</div>
+					<!--{</if>}-->
+					<!--//板块-->
+
+			</div>
+			<div class="col-sm-3 ">
+					<include file="Public/Home/tpl/main-right.html" />						
+			</div>
+		</div>
+
+<include file="Public/Home/tpl/footer.html" />
+
+<script type="text/javascript">
+
+
+$(window).scroll(function() {
+		if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+
+			var total = $(".blog-main").find("div[id=articlerow]").length;
+			var allpage = parseInt(total/10);
+			var curr = allpage+1;
+			var cate = "<!--{$Think.get.cate}-->";
+			var tag = "<!--{$Think.get.tag}-->";
+			var date = "<!--{$Think.get.date}-->";			if("<!--{$Think.CONTROLLER_NAME}-->" == 'aboutus'){				return;			}
+			//return;
+			if(total%10 == 0){
+
+					$.ajax({
+					   type: "POST",
+					   url: '<!--{:U("Index/ArticleList","",false)}-->',
+					   data: { 
+								curr : curr,
+								cate : cate,
+								tag  : tag,
+								date : date,
+							},
+					   beforeSend : function(xhr, settings) {
+							var index = layer.load(1, {
+							shade: [0.4,'#fff'], 
+							});
+						},
+					   success: function(data){
+							//console.log(data);
+							//return;
+							if(data.status >0) {
+								
+								$(".blog-main").append(data.content);
+
+							}else{
+								layer.alert(data.msg, { icon: 2});
+							}
+					   },
+						error : function(XMLHttpRequest, textStatus, errorThrown) {
+						
+						},
+						complete : function() {
+							layer.closeAll('loading');
+						}
+					},"json");
+
+			}else{
+					
+				//layer.alert("已加载到最后一页", { icon: 2});
+			}
+		}
+});
+
+$(function(){	
+	var windowwidth = $(window).width();
+	if(windowwidth<750){
+		console.log($(window).width());
+		$(".blog-main").css("padding-right","20px");	
+	}else{
+		$(".blog-main").css("padding-right","60px");
+	}
+
+});
+
+</script>

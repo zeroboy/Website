@@ -1,0 +1,39 @@
+<include file="Public/Admin/tpl/header.html" />
+	<!--{<if condition='$usercateinfo neq null'>}-->
+	<form action="<!--{:U('UserCategory/DoUpdate','',false)}-->" data-toggle="validate">
+	<table class='table table-bordered table-striped table-hover'>
+		<tr>
+			<td>用户分组名称</td>
+			<td>
+				<input class="form-control" name="usercatename" data-rule="required;" placeholder="用户分组名称" type="text" value="<!--{$usercateinfo['usercate_name']}-->">
+				<input type="hidden" name="usercateid" value="<!--{$usercateinfo['usercate_id']}-->">	
+			</td>
+		</tr>
+		<tr>
+			<td colspan='2'>
+				<p class="text-center"><button type="submit" class="btn btn-default">修改分组</button></p>
+			</td>
+		</tr>
+	</table>		
+	</form>
+	<!--{<else/>}-->
+	<form action="<!--{:U('UserCategory/DoAdd','',false)}-->" data-toggle="validate">
+		<table class='table table-bordered table-striped table-hover'>
+				<tr>
+					<td>用户分组名称</td>
+					<td>
+						<input class="form-control" name="usercatename" data-rule="required;" placeholder="用户分组名称" type="text" value="">
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<p class="text-center"><button type="submit" class="btn btn-default">添加分组</button></p>
+					</td>
+				</tr>
+		</table>
+
+		</form>
+	<!--{</if>}-->
+
+ </body>
+</html>

@@ -1,0 +1,17 @@
+<include file="Public/Admin/tpl/header.html" />
+ <body style="background:#8F8FBD;" >
+ <h3 style="float:left;">This is Header</h3>
+  <div id="" class="" style="float:right;">
+		<a><!--{$_SESSION.userinfo.0.user_account}--></a>
+		<a href="javascript:;" id="logout">登出账号</a>
+  </div>
+ </body>
+</html>
+<script type="text/javascript">
+$("#logout").click(function(){
+	console.log(123);
+	window.parent.location="<!--{:U('Login/LoginOut','',false)}-->";
+});
+
+
+</script>

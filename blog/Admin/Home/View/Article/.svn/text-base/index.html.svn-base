@@ -1,0 +1,115 @@
+<include file="Public/Admin/tpl/header.html" />
+	<div class="smalldiv">
+	<button type="button" class="btn btn-green" data-toggle="dialog" data-id="ArticleAdd" data-url="<!--{:U('Article/AddShow','',false)}-->" data-title="添加文章分组" data-options="{width:'900',height:'450'}">添加新文章</button>
+	</div>
+
+	<!--检索-->
+	<form action="<!--{:U('Article/DoSearch','',false)}-->" data-toggle="validate">
+	 <table class='table table-bordered table-striped table-hover' style="margin:20px 0;">
+		 <tbody>
+			 <tr>
+				<td>文章分类：</td>
+				<td>
+					<select name="article_cate" data-toggle="selectpicker" >
+							<option value="">请选择</option>
+						<!--{<foreach name="ArticleCateList" item="vo">}-->
+							<!--{<eq name="vo.articlecate_id" value="$_SESSION.condition_article.condition_article_cate">}-->
+								<option value="<!--{$vo.articlecate_id}-->" selected>
+							<!--{<else/>}-->
+								<option value="<!--{$vo.articlecate_id}-->">
+							<!--{</eq>}-->
+							<!--{$vo.html}--><!--{$vo.articlecate_name}-->
+							</option>
+						<!--{</foreach>}-->
+					</select>				
+				</td>
+				<td>文章标题：</td>
+				<td>
+					<input type="text" class="form-control" name="article_title" value="<!--{$_SESSION.condition_article.condition_article_title}-->" data-rule="文章标题:length[1~];" placeholder="文章标题"  data-msg-digits="文章标题不能使用纯数字" >
+				</td>
+			</tr>
+			<tr>
+				<td >发布时间：</td>
+				<td >
+				<input type="text" class="form-control" data-toggle="datepicker" name="publish_time" value="<!--{$_SESSION.condition_article.condition_publish_time}-->"  placeholder="发布时间" >
+				</td>
+				<td ></td>
+				<td ></td>
+			</tr>
+			<tr>
+				<td colspan=4>
+				<a type="button" class="btn btn-orange" href="<!--{:U('Article/Doclear','',false)}-->" data-toggle="doajax" data-id="ArticleConditionClear" style="float:right;">清空查询</a>
+				<button class="btn btn-orange" type="submit" style="float:right;" >搜索</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+
+	<!--数据-->
+	<table class='table table-bordered table-striped table-hover'>
+	<thead> 
+		<tr>
+			<th data-order-field="article_id" >序号</th>
+			<th>标题</th>
+			<th>作者</th>
+			<th data-order-field="article_cate_id" >文章分组</th>
+			<th>内容</th>
+			<th data-order-field="article_create_time">创建时间</th>
+			<th>是否评论</th>
+			<th colspan=2>操作</th>
+		</tr>
+	</thead> 
+	<tbody>
+	<!--{<if condition="$ArticleList['ArticleList']">}-->
+		<!--{<foreach name="ArticleList['ArticleList']" item="vo">}-->
+		<tr>
+				<td><!--{$vo.article_id}--></td>
+				<td><!--{$vo.article_title}--></td>
+				<td><!--{$vo.article_author_names}--></td>
+				<td><!--{$vo.article_cate_id}--></td>
+				<td><!--{$vo.article_content_format|mb_substr=0,20,'utf-8'}-->...</td>
+				<td><!--{$vo.article_create_time}--></td>
+				<td><!--{$vo.article_is_comment_c}--></td>
+				<td colspan=2>
+				<button type="button" class="btn btn-blue" data-toggle="dialog" data-id="ArticleUpdate" data-url="<!--{:U('Article/UpdateShow','',false)}-->/id/<!--{$vo.article_id}-->" data-title="修改" data-options="{width:'900',height:'450'}">修改</button>
+				<a type="button" class="btn btn-red" href="<!--{:U('Article/DoDelete','',false)}-->/id/<!--{$vo.article_id}-->" data-toggle="doajax" data-confirm-msg="您确定要删除此条文章数据吗？" data-id="ArticleDelete">删除</a>
+				</td>
+		</tr>
+		<!--{</foreach>}-->
+	<!--{<else/>}-->
+		<tr>
+			<td colspan=8 style="text-align:center;height:50px;">暂无数据</td>
+		</tr>
+	<!--{</if>}-->
+	</tbody>
+	</table>
+
+	<!--分页-->
+	<div class="bjui-pageFooter" style="background:#fff;bottom:auto;position:static;margin:10px 0;height:40px;padding-top:5px;padding-left:20%;">
+			<div class="pages">
+				<span>每页&nbsp;</span>
+				<div class="selectPagesize">
+					<select data-toggle="selectpicker" data-toggle-change="changepagesize">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
+				</div>
+				<span>&nbsp;条，共 <!--{$ArticleList['Page']['total']}--> 条</span>
+			</div>
+			<div class="pagination-box pull-left" data-toggle="pagination" data-total="<!--{$ArticleList['Page']['total']}-->" data-page-size="<!--{$ArticleList['Page']['size']}-->" data-page-current="<!--{$ArticleList['Page']['current']}-->"></div>
+	</div>
+
+	<!--排序 分页-->
+	<form  id="pagerForm" action="<!--{:U('Article/DoOrder','',false)}-->" >
+		<input type="hidden" name="pageSize" value="<!--{$ArticleList['Page']['size']}-->"><!-- 页大小 -->
+		<input type="hidden" name="pageCurrent" value="<!--{$ArticleList['Page']['current']}-->"><!-- 当前页 -->
+		<input type="hidden" name="orderField" value="<!--{:I('session.Article_orderField','article_id')}-->"><!-- 排序字段 -->
+		<input type="hidden" name="orderDirection" value="<!--{:I('session.Article_orderDirection','desc')}-->"> <!-- 排序方向 -->
+	</form>
+
+<include file="Public/Admin/tpl/footer.html" />

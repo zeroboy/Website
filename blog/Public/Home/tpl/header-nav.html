@@ -1,0 +1,121 @@
+<style type="text/css">
+	.blog-sidebar div{
+		margin-bottom:30px;
+	}
+	.bbc{
+		border:1px solid #fff;padding:10px 10px;background:#fff;border-radius:6px;
+	}
+	.bbc ul li{
+		margin-right:10px;
+	}
+
+	.logo{
+		background: #ffffff;
+		background: -moz-linear-gradient(top,#ffffff 0%, #ccc 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ccc));
+		background: -webkit-linear-gradient(top,  #ffffff 0%,#ccc 100%);
+		background: -o-linear-gradient(top,  #ffffff 0%,#ccc 100%);
+		background: -ms-linear-gradient(top,  #ffffff 0%,#ccc 100%);
+		background: linear-gradient(to bottom, #ffffff  0%,#ccc 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ccc',GradientType=0 );
+	}
+
+</style>
+
+    <div class="container" >
+
+<!---->
+		 <div class="sidebar-module " > 
+			<div class="panel panel-default logo" >
+				<div class="panel-body">
+					<div style="width:70%;">
+						<img src="__PUBLIC__/Home/image/logo.png" style="width:150%;height:150%;max-width:700px;" border="0" alt="">
+					</div>
+				</div>
+			</div>
+		  </div>
+
+
+
+		<!--//导航-->
+		<div id="" class="bbc" >
+			<ul class="nav nav-pills ">
+			
+			<!--{<if condition="$Think.get.cate eq null" >}-->
+				<!--{<if condition="($ArticleInfo['article_cate_id'] neq null) || ($Think.CONTROLLER_NAME==Aboutus)">}-->
+					<li role="presentation" ><a href="<!--{:U('Index/index','',false)}-->">首页</a></li>
+				<!--{<else/>}-->
+					<li role="presentation" class="active "><a href="<!--{:U('Index/index','',false)}-->">首页</a></li>
+				<!--{</if>}-->
+			<!--{<else/>}-->	
+				<li role="presentation"><a href="<!--{:U('Index/index','',false)}-->">首页</a></li>
+			<!--{</if>}-->
+			  <!--{<foreach name="nav" key="k" item="vo" >}-->
+				  <!--{<if condition="$vo.child ">}-->
+				  <!--{<eq name="vo.articlecate_name" value="$Think.get.cate">}-->
+							<li role="presentation" class="dropdown active" >
+				  <!--{<else/>}-->
+							<!--{<in name="Think.get.cate" value="$vo.child">}-->
+								<li role="presentation" class="dropdown active" >
+							<!--{<else/>}-->
+								<!--{<in name="ArticleInfo['article_cate_id']" value="$vo.child">}-->
+									<li role="presentation" class="dropdown active" >
+								<!--{<else/>}-->
+									
+									<!--{<eq name="vo.articlecate_name" value="$ArticleInfo['article_cate_id']">}-->
+										<li role="presentation" class="dropdown active" >
+									<!--{<else/>}-->
+										<li role="presentation" class="dropdown " >
+									<!--{</eq>}-->
+
+								<!--{</in>}-->
+							<!--{</in>}-->
+				  <!--{</eq>}-->
+							 <a class="dropdown-toggle" data-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false">
+							  <!--{$vo.articlecate_name}--> <span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+									<li role="presentation"><a href="<!--{:U('Index/index/cate','',false)}-->/<!--{$vo.articlecate_name}-->"><!--{$vo.articlecate_name}--></a></li>
+							<!--{<foreach name="vo.child" key="k1" item="vo1" >}-->
+									<li role="presentation"><a href="<!--{:U('Index/index/cate','',false)}-->/<!--{$vo1}-->"><!--{$vo1}--></a></li>
+							<!--{</foreach>}-->
+							</ul>
+						  </li>				
+				  <!--{<else/>}-->
+					  <!--{<eq name="vo.articlecate_name" value="$Think.get.cate">}-->
+									<li role="presentation" class="active ">
+					  <!--{<else/>}-->
+					    <!--{<eq name="vo.articlecate_name" value="$ArticleInfo['article_cate_id']">}-->
+									<li role="presentation" class="active ">
+						<!--{<else/>}-->
+									<li role="presentation" >
+						<!--{</eq>}-->
+					  <!--{</eq>}-->
+									<a href="<!--{:U('Index/index/cate','',false)}-->/<!--{$vo.articlecate_name}-->"><!--{$vo.articlecate_name}--></a></li>
+					  
+				  <!--{</if>}-->
+			  <!--{</foreach>}-->
+			  <!--{<if condition='($Think.CONTROLLER_NAME==Aboutus)'>}-->
+				<li role="presentation" class="active"><a href="<!--{:U('aboutus/index','',false)}-->">关于我们</a></li>
+			  <!--{<else/>}-->
+				<li role="presentation" ><a href="<!--{:U('aboutus/index','',false)}-->">关于我们</a></li>
+			  <!--{</if>}-->
+			</ul>
+		</div>
+<hr>
+
+<script type="text/javascript">
+
+$(function(){	
+	var windowwidth = $(window).width();
+	if(windowwidth<750){
+		//console.log($(window).width());
+		$(".nav").addClass("nav-stacked");	
+	}else{
+		$(".nav").removeClass("nav-stacked");
+	}
+
+});
+
+
+</script>

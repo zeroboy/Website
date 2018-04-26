@@ -1,0 +1,68 @@
+<include file="Public/Admin/tpl/header.html" />
+	<!--{<if condition='$CateUpdateInfo neq null'>}-->
+	<form action="<!--{:U('ArticleCategory/DoUpdate','',false)}-->" data-toggle="validate" >
+	<table class='table table-bordered table-striped table-hover'>
+		<tr>
+			<td>文章分组父级</td>
+			<td>
+				<select name="articlecate_parent_mark" data-toggle="selectpicker">
+					<option value="0">├顶级分类</option>
+					<!--{<foreach name="ArticleCateList['ArticleCateList']" item="vo">}-->
+						<!--{<eq name="vo.articlecate_id" value="$CateUpdateInfo['pid']">}-->
+							<option value="<!--{$vo.articlecate_parent_mark}-->-<!--{$vo.articlecate_id}-->" selected>
+						<!--{<else/>}-->
+							<option value="<!--{$vo.articlecate_parent_mark}-->-<!--{$vo.articlecate_id}-->">
+						<!--{</eq>}-->
+						<!--{$vo.html}--><!--{$vo.articlecate_name}-->
+						</option>
+					<!--{</foreach>}-->
+				</select>
+			</td>
+			</tr>
+			<tr>
+			<td>文章分组名称</td>
+			<td>
+				<p><input class="form-control" name="catename" data-rule="文章分组名称:required;" placeholder="分组名称" type="text" value="<!--{$CateUpdateInfo['articlecate_name']}-->"></p>
+
+				<p style="display:none;"><input class="form-control" name="cateid" data-rule="required;" placeholder="分组名称" type="hidden" value="<!--{$CateUpdateInfo['articlecate_id']}-->"></p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan='2'>
+				<p class="text-center"><button type="submit" class="btn btn-default">修改分组</button></p>
+			</td>
+		</tr>
+	</table>		
+	</form>
+	<!--{<else/>}-->
+	<form action="<!--{:U('ArticleCategory/DoAdd','',false)}-->" data-toggle="validate" >
+		<table class='table table-bordered table-striped table-hover'>
+			<tr>
+			<td>文章分组父级</td>
+				<td>
+					<select name="articlecate_parent_mark" data-toggle="selectpicker">
+						<option value="0">├顶级分类</option>
+						<!--{<foreach name="ArticleCateList['ArticleCateList']" item="vo">}-->
+							<option value="<!--{$vo.articlecate_parent_mark}-->-<!--{$vo.articlecate_id}-->">
+							<!--{$vo.html}--><!--{$vo.articlecate_name}-->
+							</option>
+						<!--{</foreach>}-->
+					</select>
+				</td>
+				</tr>
+				<tr>
+					<td>文章分组名称</td>
+					<td>
+						<p><input class="form-control" name="catename" data-rule="文章分组名称:required;" placeholder="分组名称" type="text"></p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<p class="text-center"><button type="submit" class="btn btn-default">提 交</button></p>
+					</td>
+				</tr>
+		</table>
+
+		</form>
+	<!--{</if>}-->
+<include file="Public/Admin/tpl/footer.html" />

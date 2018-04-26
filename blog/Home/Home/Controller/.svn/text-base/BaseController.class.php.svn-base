@@ -1,0 +1,228 @@
+<?php
+
+namespace Home\Controller;
+use Think\Controller;
+class BaseController extends Controller {
+
+	
+	private $ArticleCateModel;
+	private $ArticleModel;
+	private $ArticleTagModel;
+	private $ArticleCommentModel;
+
+	public function __construct(){
+		
+		parent::__construct();
+
+		//导航
+		$this->ArticleCateModel = M('articlecate');
+		$catedata = $this->GetArticleCateList();
+		$this->assign("nav",$catedata);
+
+		//归档
+		$this->ArticleModel = M('article');
+	    $archiving = $this->ArticleArchiving();
+		$this->assign("archiving",$archiving);
+
+		//标签云
+		$this->ArticleTagModel = M('articletag');
+		$tagcloud = $this->TagCloudData();
+		$this->assign("tagcloud",$tagcloud);
+
+		//近期文章
+		$recentarticle = $this->RecentArticle();
+		$this->assign("recentarticle",$recentarticle);
+
+		//近期评论
+		$this->ArticleCommentModel = M('communicate');
+		$recentcomment = $this->RecentComment();
+		$this->assign("recentcomment",$recentcomment);
+
+		//热评文章
+		$hotcomment = $this->GetHotComment();
+		$hotcomment_format = $this->FormatHotComment($hotcomment);
+		$this->assign("hotcomment",$hotcomment_format['response']);
+
+	}
+
+
+	//获取导航分类
+	private function GetArticleCateList(){
+		
+		$res = $this->ArticleCateModel->where("articlecate_parent_mark = '0'")->order("articlecate_id asc")->select();
+
+		foreach($res as $k=>$v){
+
+			$str = (string)$v['articlecate_parent_mark']."-".$v['articlecate_id'];
+			$arr = $this->ArticleCateModel->where("articlecate_parent_mark like '".$str."%' ")->select();
+			if($arr){
+				foreach($arr as $k2=>$v2){
+					$res[$k]['child'][$k2] = $v2['articlecate_name'];
+				}
+			}
+		}
+
+		return $res;
+	}
+
+
+	//归档
+	private function ArticleArchiving(){
+		//$sql = "select FROM_UNIXTIME(article_create_time, '%Y-%m') as pubtime, count(*) as cnt from blog_article group by FROM_UNIXTIME(article_create_time, '%Y-%m') ";
+
+		$field = "FROM_UNIXTIME(article_create_time, '%Y-%m') as pubtime, count(*) as cnt";
+		$group = "FROM_UNIXTIME(article_create_time, '%Y-%m') ";
+		$where = "article_tpl_type = 1";
+        $order = "article_create_time desc";
+		$res = $this->ArticleModel->field($field)->group($group)->where($where)->order($order)->select();
+
+		foreach($res as $k=>$v){
+			$res[$k]['pubtime_format'] = date('Y年n月',strtotime($v['pubtime']));
+		}
+
+		return $res;
+	}
+
+
+	//标签云
+	private function TagCloudData(){
+		
+		//$sql = "select * from blog_articletag where tag_id >= (SELECT floor(RAND() * (SELECT MAX(tag_id) FROM `blog_articletag`))) limit 0,6";
+
+		$tagid_round = "tag_id >= (SELECT floor(RAND() * (SELECT MAX(tag_id) FROM `blog_articletag`)))";
+		$taginfo = $this->ArticleTagModel->order("RAND() ")->limit("0,12")->select();
+
+		static $num = -3;
+		foreach($taginfo as $k=>$v){
+		
+			//{text: "thinkphp", weight: 6, link: "http://jquery.com/"},
+			//{text: "Mysql", weight: 3, html: {title: "I can haz any html attribute"}}
+			$taginfo_format[$k]['text'] = $v['tag_name'];
+			if(mb_strlen($v['tag_name'],'UTF8')<7){
+				$taginfo_format[$k]['weight'] = $num;
+			}else{
+				$taginfo_format[$k]['weight'] = -0.55*rand(1,3);
+			}
+			$taginfo_format[$k]['link'] = U('Index/index/tag','',false).'/'.$v['tag_name'];
+			$taginfo_format[$k]['html'] = array("title"=>$v['tag_name']);
+
+			$num +=1;
+		}
+
+
+		return json_encode($taginfo_format);
+	}
+
+
+	//近期文章
+	private function RecentArticle(){
+		
+		$order = "article_update_time desc ";
+		$limit = "0,5";
+		$where = "article_tpl_type = 1";
+		$res = $this->ArticleModel->where($where)->order($order)->limit($limit)->select();
+		
+		foreach($res as $k=>$v){
+			$res[$k]['article_title_format'] = (mb_strlen($v['article_title'],'UTF8')>14)?mb_substr($v['article_title'], 0, 14, 'utf-8').'...':$v['article_title'];
+		}
+
+		return $res;
+	}
+
+
+	//近期评论
+
+	private function RecentComment(){
+
+		//2016/11/12改动[防止恶意刷评论]
+		$where = "id>282 and is_show=1 ";
+		$order = 'id desc';
+		$limit = "0,5";
+		
+		$res = $this->ArticleCommentModel->field("id,mate_message,mate_thread_key,mate_author_name")->where($where)->order($order)->limit($limit)->select();
+
+		foreach($res as $k=>$v){
+			$res[$k]['message_format'] = (mb_strlen(urldecode($v['mate_message']),'UTF8')>10)?mb_substr(urldecode($v['mate_message']), 0, 10, 'utf-8').'...':urldecode($v['mate_message']);
+			$thread_key = explode("_",$v['mate_thread_key']);
+			$res[$k]['article_id'] = $thread_key[count($thread_key)-1];
+			$res[$k]['author_name'] = ($v['mate_author_name'])?urldecode($v['mate_author_name']):'无名氏';
+		}
+
+		return $res;
+
+	}
+
+	//热评文章
+
+	private function GetHotComment(){
+
+		$url = "http://api.duoshuo.com/sites/listTopThreads.json";
+		$short_name = "zeroboy";
+		$range = "monthly";
+		$num_items = 5;
+
+		$data = array(
+			"short_name"=>$short_name,
+			"range"=>$range,
+			"num_items"=>$num_items,
+		);
+
+		foreach($data as $k=>$v){
+			$strs .= $k."=".$v."&";
+		}
+
+		$args = rtrim($strs,"&");
+
+		$url .= "?";
+		$url .= $args;
+
+		$res = $this->HttpGetRequest($url);
+
+		$return = json_decode($res,true);
+		
+		return $return;	
+	}
+
+
+	//热评文章过滤
+
+	private function FormatHotComment($data){
+	
+		foreach($data['response'] as $k=>&$v){
+			
+			$v['title'] = (mb_strlen($v['title'],"utf-8")>12)?mb_substr($v['title'],"0","12","utf-8")."...":$v['title'];
+			$create_arr = explode("-",$v['created_at']);
+			$create_str2 = substr($create_arr[0],0,2);
+			$create_str = $create_arr[0]."-".$create_arr[1]."-".$create_str2;
+			$v['created_at'] = $create_str;
+
+			if(strtotime($create_str)<strtotime("2016-02-02")){
+				unset($data['response'][$k]);
+			}
+		}
+
+		rsort($data['response']);
+
+		return $data;
+	
+	}
+
+	// 模拟GET请求
+	private function HttpGetRequest($Url) {
+		$curl = curl_init ();
+		curl_setopt ( $curl, CURLOPT_URL, $Url );
+		curl_setopt ( $curl, CURLOPT_RETURNTRANSFER, 1 );
+		$data = curl_exec ( $curl );
+		curl_close ( $curl );
+		return $data;
+	}
+
+
+
+
+
+
+
+
+
+}

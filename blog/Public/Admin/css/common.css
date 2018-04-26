@@ -1,0 +1,30 @@
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+.list{ width:100%; margin:0 auto; border:1px solid #f6f6f6; font-size:14px; color:#767676;}
+.list td{ padding:15px;border:1px solid #ccc;}
+.list tr.list_title{ background:#fffae5; border-bottom:1px solid #fbf3d3;}
+.list tr{ background:#fff;}
+.list tr.icon_list{ vertical-align:middle;}
+.list tr.icon_list span{ display:inline-block; vertical-align:middle; font-size:12px; color:#fff!important; line-height:20px;}
+.list tr.icon_list span.text{ font-size:14px; color:#30333a;}
+.list tr.grey{ background:#f6f6f6;}
+
+
+.smalldiv{border:1px solid #ccc;width:99.8%;padding:10px 0;margin:2px 0;}
+
+
+/*µÇÂ¼*/
+.loginlist{ width:350px; margin:190px auto; border:1px solid #f6f6f6; font-size:14px; color:#767676;}
+.loginlist td{ padding:10px;text-align:center;}
+.loginlist tr.loginlist_title{ background:#fffae5; border-bottom:1px solid #fbf3d3;}
+.loginlist tr{ background:rgba(255,255,255,0.3)}
+.loginlist tr.icon_list{ vertical-align:middle;}
+.loginlist tr.icon_list span{ display:inline-block; vertical-align:middle; font-size:12px; color:#fff!important; line-height:20px;}
+.loginlist tr.icon_list span.text{ font-size:14px; color:#30333a;}
+.loginlist tr.grey{ background:#f6f6f6;}
+
+.loginbg{border:1px solid #ccc;width:99.8%;padding:10px 0;margin:2px 0;height:auto;background:lightblue;}

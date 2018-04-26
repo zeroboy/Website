@@ -1,0 +1,90 @@
+<include file="Public/Home/tpl/header.html" />
+<include file="Public/Home/tpl/header-nav.html" />
+<style type="text/css">
+	.blog-main{
+		padding-right:20px;
+	}
+	.text-justify{
+		padding-top:10px;
+	}
+	#articlerow{
+		-moz-box-shadow: 3px 3px 4px #aaaaaa; /* 老的 Firefox */
+		box-shadow:3px 3px 4px #aaaaaa;
+		margin-bottom:40px;
+	}
+	.jumbotron{
+		background: url("__PUBLIC__/Home/image/aboutusbg.jpg") 0 0 repeat;
+	}
+
+	.content1{
+		background: rgba(255,255,255,0);
+	}
+</style>
+		<div class="row" >
+			<div class="col-sm-9 blog-main">
+			
+				<!--//板块-->
+
+					<div class="jumbotron">
+						  <h1>关于本站</h1>
+						  <p>本站致力于PHP及相关语言的开发与传播、分享、研究、讨论。</p>
+						  <p><a class="btn btn-primary btn-lg" href="javascript:;" id="more" role="button">更多</a></p>
+
+						  <div class="panel panel-default content1" style="display:none;">
+							  <div class="panel-body">
+								<p>请关注我的微信公众号，有更多惊喜等着你！或者扫描下面的二维码，加我的qq好友哦~</p>
+								<div class="row">
+								<div class="col-xs-6 col-md-5" >
+									<a href="javascript:;" class="thumbnail" ><img src="__PUBLIC__/Home/image/myqrcode.jpg" style="width:250px;"alt=""></a>
+									
+								  </div>
+								<div class="col-xs-6 col-md-5" style="margin-left:100px;">
+								  <a href="javascript:;" class="thumbnail" ><img src="__PUBLIC__/Home/image/qq_qrcode.png" style="width:250px;"alt=""></a>
+								</div>
+
+							  </div>
+							  </div>
+						  </div>
+
+						  
+					</div>
+
+					
+				<!--//板块-->
+
+			</div>
+			<div class="col-sm-3 ">
+					<include file="Public/Home/tpl/main-right.html" />						
+			</div>
+		</div>
+
+<include file="Public/Home/tpl/footer.html" />
+
+<script type="text/javascript">
+
+$(function(){	
+	var windowwidth = $(window).width();
+	if(windowwidth<750){
+		console.log($(window).width());
+		$(".blog-main").css("padding-right","20px");	
+	}else{
+		$(".blog-main").css("padding-right","60px");
+	}
+
+
+	$("#more").click(function(){
+	
+		$(".content1").slideToggle("slow",
+		
+		function(){
+			if($("#more").text() == "收起"){
+				$("#more").text("更多");
+			}else{
+				$("#more").text("收起");
+			}
+				
+		})
+	})
+});
+
+</script>

@@ -1,0 +1,88 @@
+<include file="Public/Admin/tpl/header.html" />
+
+	<form action="<!--{:U('CommentManger/DoSearch','',false)}-->" data-toggle="validate">
+	 <table class='table table-bordered table-striped table-hover' style="margin:20px 0;">
+		 <tbody>
+			 <tr>
+				<td>评论作者名称：</td>
+				<td><input class="form-control" name="authorname" data-rule="评论作者名称:length[1~];" placeholder="评论作者名称" type="text" value="<!--{$Think.session.condition_articlecomment.condition_authorname}-->"></td>
+			</tr>
+			<tr>
+				<td colspan=2>
+				<a type="button" class="btn btn-orange" href="<!--{:U('CommentManger/Doclear','',false)}-->" data-toggle="doajax" data-id="ArticleCommentConditionClear" style="float:right;">清空查询</a>
+				<button class="btn btn-orange" type="submit" style="float:right;" >搜索</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</form>
+
+	<table class='table table-bordered table-striped table-hover'>
+	<thead> 
+		<tr>
+			<th data-order-field="id" >序号</th>
+			<th >评论编号</th>
+			<th >评论文章</th>
+			<th data-order-field="mate_author_name">评论作者名称</th>
+			<th >评论作者邮箱</th>
+			<th >评论内容</th>
+			<th data-order-field="create_time">评论同步时间</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<!--{<if condition="$ArticleComment['ArticleComment']">}-->
+		<!--{<foreach name="ArticleComment['ArticleComment']" item="vo">}-->
+		<tr>
+					<td><!--{$vo.id}--></td>
+					<td><!--{$vo.mate_post_id}--></td>
+					<!--{<if condition="$vo.article_id neq NULL ">}-->
+						<td><a href="http://zeroboy.cn/blog/index.php/Article/index/id/<!--{$vo.article_id}-->">线上地址<!--{$vo.article_id}--></a></td>
+					<!--{<else/>}-->
+						<td>暂无</td>
+					<!--{</if>}-->
+					<td><!--{$vo.mate_author_name}--></td>
+					<td><!--{$vo.mate_author_email}--></td>
+					<td><!--{$vo.mate_message}--></td>
+					<td><!--{$vo.create_time}--></td>
+				
+		</tr>
+		<!--{</foreach>}-->
+		<!--{<else/>}-->
+		<tr>
+			<td colspan=4 style="text-align:center;height:50px;">暂无数据</td>
+		</tr>
+		<!--{</if>}-->
+	</tbody>
+	</table>
+
+	<!--分页-->
+	<div class="bjui-pageFooter" style="background:#fff;bottom:auto;position:static;margin:10px 0;height:40px;padding-top:5px;padding-left:25%;">
+			<div class="pages">
+				<span>每页&nbsp;</span>
+				<div class="selectPagesize">
+					<select data-toggle="selectpicker" data-toggle-change="changepagesize">
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="30">30</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
+				</div>
+				<span>&nbsp;条，共 <!--{$ArticleComment['Page']['total']}--> 条</span>
+			</div>
+			<div class="pagination-box pull-left" data-toggle="pagination" data-total="<!--{$ArticleComment['Page']['total']}-->" data-page-size="<!--{$ArticleComment['Page']['size']}-->" data-page-current="<!--{$ArticleComment['Page']['current']}-->"></div>
+	</div>
+
+
+	<!--排序 分页-->
+	<form  id="pagerForm" action="<!--{:U('CommentManger/DoOrder','',false)}-->" >
+		<input type="hidden" name="pageSize" value="<!--{$ArticleComment['Page']['size']}-->"><!-- 页大小 -->
+		<input type="hidden" name="pageCurrent" value="<!--{$ArticleComment['Page']['current']}-->"><!-- 当前页 -->
+		<input type="hidden" name="orderField" value="<!--{:I('session.ArticleCategory_orderField','id')}-->"><!-- 排序字段 -->
+		<input type="hidden" name="orderDirection" value="<!--{:I('session.ArticleCategory_orderDirection','desc')}-->"> <!-- 排序方向 -->
+	</form>
+
+
+<include file="Public/Admin/tpl/footer.html" />

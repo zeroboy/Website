@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+  <title>零度先生博客——致力于PHP开发</title>
+ </head>
+ <link rel="shortcut icon" href="__PUBLIC__/Home/image/favicon.jpg" type="image/x-icon" />
+ <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/navbar.css">
+ <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/common.css">
+ <script type="text/javascript" src="__PUBLIC__/Home/js/jquery-v11.3.js"></script>
+ <script type="text/javascript" src="__PUBLIC__/Home/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="__PUBLIC__/Home/js/layer1.93/layer.js"></script>
+ <style type="text/css">
+ /*
+	body{
+		background:lightblue;
+	}
+
+	div,ul,span,p,li,h1,h2,h3,h4,h5,h6,a{
+		background:rgba(255,255,255,0) !important;
+		color:black !important;
+	}
+*/
+ </style>
+ <body>

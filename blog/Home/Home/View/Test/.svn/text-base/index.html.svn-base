@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+ </head>
+ <body>
+  <h4><!--{$str}--></h4>
+  <h4>45677</h4>
+ </body>
+</html>

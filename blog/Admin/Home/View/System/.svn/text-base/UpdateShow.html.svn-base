@@ -1,0 +1,41 @@
+<include file="Public/Admin/tpl/header.html" />
+	<form  action="<!--{:U('System/DoUpdate','',false)}-->" data-toggle="validate">
+	<table class='table table-bordered table-striped table-hover'>	
+		<tbody>
+				<tr>
+					<td>数据库类型</td>
+					<td><input type="text" name="DB_TYPE" value="<!--{$sys_config['DB_TYPE']}-->" data-rule="数据库类型:required;" disabled></td>
+				</tr>
+				<tr>
+					<td>数据库主机</td>
+					<td><input type="text" name="DB_HOST" value="<!--{$sys_config['DB_HOST']}-->" data-rule="数据库主机:required;"></td>					
+				</tr>
+				<tr>
+					<td>数据库名称</td>
+					<td><input type="text" name="DB_NAME" value="<!--{$sys_config['DB_NAME']}-->" data-rule="数据库名称:required;"></td>
+				</tr>
+				<tr>
+					<td>数据库端口</td>
+					<td><input type="text" name="DB_PORT" value="<!--{$sys_config['DB_PORT']}-->" data-rule="数据库端口:required;"></td>
+				</tr>
+				<tr>
+					<td>数据表前缀</td>
+					<td><input type="text" name="DB_PREFIX" value="<!--{$sys_config['DB_PREFIX']}-->" data-rule="数据表前缀:required;"></td>
+				</tr>
+				<tr>
+					<td>模板右标签</td>
+					<td><input type="text" name="TMPL_R_DELIM" value="<!--{$sys_config['TMPL_R_DELIM']}-->" disabled data-rule="模板右标签:required;"></td>
+				</tr>
+				<tr>
+					<td>模板左标签</td>
+					<td><input type="text" name="TMPL_L_DELIM" value="<!--{$sys_config['TMPL_L_DELIM']}-->" disabled data-rule="模板左标签:required;"></td>
+				</tr>
+				<tr>
+					<td colspan=2>
+					<p class="text-center"><button type="submit" class="btn btn-default">确认修改</button></p>
+					</td>
+				</tr>
+		</tbody>
+	</table>
+</form>				
+<include file="Public/Admin/tpl/footer.html" />

@@ -1,0 +1,185 @@
+   <link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/css/jqcloud.css" />
+    <script type="text/javascript" src="__PUBLIC__/Home/js/jqcloud-1.0.4.js"></script>
+	<style>
+	/*置顶*/
+	.back-to {bottom: 35px;overflow:hidden;position:fixed;right:10px;width:50px;z-index:999;}
+	.back-to .back-top {background: url("__PUBLIC__/Home/image/top.png") no-repeat scroll 0 0 transparent;display: block;float: right;height:50px;margin-left: 10px;outline: 0 none;text-indent: -9999em;width: 50px;}
+	.back-to .back-top:hover {background-position: -50px 0;}
+
+	.right-style{
+		-moz-box-shadow: 3px 3px 4px #aaaaaa; /* 老的 Firefox */
+		box-shadow:3px 3px 4px #aaaaaa;
+	}
+	</style>
+
+  <div class="sidebar-module sidebar-module-inset" >
+	  <div class="panel panel-default">
+		<div class="panel-body right-style">
+		<h4>关于本站</h4>
+		<p>本站致力于PHP及相关语言的开发与传播、分享、研究、讨论。</p>
+		</div>
+	  </div>
+  </div>
+
+<div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>文章归档</h4>
+
+			<div class="list-group">
+
+			<!--{<foreach name="archiving" key="k" item="vo" >}-->
+			 <!--{<eq name="vo.pubtime" value="$Think.get.date">}-->
+			  <a href="<!--{:U('Index/index/date','',false)}-->/<!--{$vo.pubtime}-->" class="list-group-item active" ><!--{$vo.pubtime_format}--><span class="badge"><!--{$vo.cnt}--></span></a>
+			<!--{<else/>}-->
+			  <a href="<!--{:U('Index/index/date','',false)}-->/<!--{$vo.pubtime}-->" class="list-group-item" ><!--{$vo.pubtime_format}--><span class="badge"><!--{$vo.cnt}--></span></a>
+			<!--{</eq>}-->
+			<!--{</foreach>}-->
+			</div>
+
+		</div>
+	</div>
+  </div>
+
+  <div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>近期文章</h4>
+			<!--{<foreach name="recentarticle" key="k" item="vo" >}-->
+				<a class="list-group-item" href="<!--{:U('Article/index','',false)}-->/id/<!--{$vo.article_id}-->"><!--{$vo.article_title_format}--></a>
+			<!--{</foreach>}-->
+		</div>
+	</div>
+  </div>
+
+   <div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>热评文章</h4>
+			<!--{<foreach name="hotcomment" key="k" item="vo" >}-->
+			<!--{<if condition="$k eq 0">}-->
+				<a class="list-group-item list-group-item-danger" href="<!--{$vo.url}-->">
+			<!--{<elseif condition=" $k eq 1"/>}-->
+				<a class="list-group-item list-group-item-warning" href="<!--{$vo.url}-->">
+			<!--{<elseif condition="$k eq 2"/>}-->
+				<a class="list-group-item list-group-item-info" href="<!--{$vo.url}-->">
+			<!--{<else/>}-->
+				<a class="list-group-item list-group-item-success" href="<!--{$vo.url}-->">
+			<!--{</if>}-->
+				<img src="__PUBLIC__/Home/image/numbers/<!--{$k+1}-->.png" style="width:15px;height:15px;" >&nbsp;&nbsp;<!--{$vo.title}--><span class="badge"><!--{$vo.comments}--></span></a>
+			<!--{</foreach>}-->
+		</div>
+	</div>
+  </div>
+
+<!--
+   <div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h4>热评文章</h4>
+
+				<!-- 多说热评文章 start 
+				<div class="ds-top-threads" data-range="monthly" data-num-items="5"></div>
+			<!-- 多说热评文章 end
+			<!-- 多说公共JS代码 start (一个网页只需插入一次)
+			<script type="text/javascript">
+			var duoshuoQuery = {short_name:"zeroboy"};
+				(function() {
+					var ds = document.createElement('script');
+					ds.type = 'text/javascript';ds.async = true;
+					ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+					ds.charset = 'UTF-8';
+					(document.getElementsByTagName('head')[0] 
+					 || document.getElementsByTagName('body')[0]).appendChild(ds);
+				})();
+				</script>
+			<!-- 多说公共JS代码 end 
+
+		</div>
+	</div>
+  </div>
+-->
+
+  <div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>近期评论</h4>
+			<ul class="list-group">
+			<!--{<foreach name="recentcomment" key="k" item="vo" >}-->
+
+					<a class="list-group-item" href=""><img src="<!--{$vo.author_img}-->" class="img-thumbnail" style="width: 40px;"><strong><!--{$vo.author_name}--></strong>:<!--{$vo.content}--></a>
+
+			<!--{</foreach>}-->
+			</ul>
+		</div>
+	</div>
+  </div>
+
+  <div class="sidebar-module" > 
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>标签云</h4>
+			<div id="example" style="width:auto; height: 300px;"></div>
+		</div>
+	</div>
+  </div>
+<!--
+  <div class="sidebar-module">
+	<div class="panel panel-default">
+		<div class="panel-body right-style">
+			<h4>其他</h4>
+			<ol class="list-unstyled">
+			  <li><a href="#">推荐</a></li>
+			  <li><a href="#">分享</a></li>
+			</ol>
+		</div>
+	</div>
+  </div>-->
+  
+	<!--//置顶-->
+	<div style="display:none;" class="back-to" id="toolBackTop">
+		<a title="返回顶部" onclick="window.scrollTo(0,0);return false;" href="#top" class="back-top">
+			返回顶部
+		</a>
+	</div>
+
+  <script type="text/javascript">
+
+      /*!
+       * Create an array of word objects, each representing a word in the cloud
+       */
+      var word_array = eval("("+'<!--{$tagcloud}-->'+")");
+	//console.log(word_array);
+      $(function() {
+        // When DOM is ready, select the container element and call the jQCloud method, passing the array of words as the first argument.
+        $("#example").jQCloud(word_array,{
+		
+			'shape':'rectangular',//形状
+			removeOverflowing: true,//自动
+
+		});
+      });
+
+
+	$(document).ready(function () {
+			var bt = $('#toolBackTop');
+			var sw = $(document.body)[0].clientWidth;
+
+			var limitsw = (sw - 1060) / 2 - 40;
+			if (limitsw > 0){
+					limitsw = parseInt(limitsw);
+					bt.css("right",limitsw);
+			}
+
+			$(window).scroll(function() {
+					var st = $(window).scrollTop();
+					if(st > 30){
+							bt.fadeIn("fast");
+					}else{
+							bt.fadeOut("fast");
+					}
+			});
+	})
+
+
+  </script>

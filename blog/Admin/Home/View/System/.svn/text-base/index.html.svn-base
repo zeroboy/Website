@@ -1,0 +1,37 @@
+<include file="Public/Admin/tpl/header.html" />
+<div class="smalldiv">
+	<button type="button" class="btn btn-green" data-toggle="dialog" data-url="<!--{:U('System/UpdateShow','',false)}-->"data-options="{id:'SystemUpdate',title:'修改配置参数',width:'900',height:'400'}">修改配置参数</button>
+</div>
+	<table class='table table-bordered table-striped table-hover'>
+	<tbody>
+				<tr>
+					<td>数据库类型</td>
+					<td><!--{$sys_config['DB_TYPE']}--></td>
+				</tr>
+				<tr>
+					<td>数据库主机</td>
+					<td><!--{$sys_config['DB_HOST']}--></td>					
+				</tr>
+				<tr>
+					<td>数据库名称</td>
+					<td><!--{$sys_config['DB_NAME']}--></td>
+				</tr>
+				<tr>
+					<td>数据库端口</td>
+					<td><!--{$sys_config['DB_PORT']}--></td>
+				</tr>
+				<tr>
+					<td>数据表前缀</td>
+					<td><!--{$sys_config['DB_PREFIX']}--></td>
+				</tr>
+				<tr>
+					<td>模板右标签</td>
+					<td><!--{$sys_config['TMPL_R_DELIM']}--></td>
+				</tr>
+				<tr>
+					<td>模板左标签</td>
+					<td><!--{$sys_config["TMPL_L_DELIM"]}--></td>
+				</tr>
+		</tbody>
+	</table>
+<include file="Public/Admin/tpl/footer.html" />

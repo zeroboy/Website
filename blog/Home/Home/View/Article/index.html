@@ -1,0 +1,322 @@
+<include file="Public/Home/tpl/header.html" />
+
+<include file="Public/Home/tpl/header-nav.html" />
+
+<style type="text/css">
+
+	.blog-main{
+
+		padding-right:20px;
+
+	}
+
+	
+	.label{
+
+		margin:0 3px;
+
+	}
+
+	.article_content{
+
+		padding:10px 20px 50px 20px;
+
+	}
+
+	.aboutarticle{
+
+		border:1px solid #fff;
+
+	}
+
+
+
+</style>
+
+		<div class="row" >
+
+			<div class="col-sm-9 blog-main">
+
+
+
+				<!--//标题-->
+
+				<div class="panel panel-primary">
+
+
+
+					<div class="panel-heading">
+
+						<h4><strong><!--{$ArticleInfo['article_title']}--></strong></h4>
+
+					</div>
+
+					 <div class="panel-body" >
+
+						 <div id="" class="panel-body-info">
+
+								<span class="label label-primary"><!--{$ArticleInfo['article_create_time']}--></span>&nbsp;
+
+								<span class="label label-primary"><!--{$ArticleInfo['article_cate_id']}--></span>
+
+								<span class="label label-primary">阅读(<!--{$ArticleInfo['article_look_acount']}-->)</span>
+
+								<span class="label label-primary">评论(<!--{$ArticleInfo['article_comment_count']}-->)</span>		
+
+						 </div>
+
+					 </div>
+
+				</div>
+
+
+
+				<!--//文章-->
+
+				<div class="panel panel-primary">
+
+					<div class="panel-body article_content">
+
+					<p><!--{$ArticleInfo['article_content']}--></p>
+
+					</div>
+
+
+
+				</div>
+
+
+
+			<!--//示例图放大镜容器-->
+
+			<div class="modal fade "  role="dialog" id="imgshow">
+
+			  <div class="modal-dialog">
+
+				<div class="modal-content">
+
+				</div>
+
+			  </div>
+
+			</div>
+
+
+
+			<!--{<if condition="$ArticleAbout neq null">}-->
+
+			<div class="panel panel-default">
+
+					<div class="panel-heading">相关文章</div>
+
+					<div class="panel-body ">
+
+							<div class="row">
+
+						<!--{<foreach name="ArticleAbout" key="k" item="vo" >}-->
+
+								  <div class="col-sm-4 col-md-4">
+
+									<div class="thumbnail">
+
+									 <a href="<!--{:U('Article/index','',false)}-->/id/<!--{$vo.article_id}-->" class="thumbnail" title="<!--{$vo.article_title}-->">
+
+									 <!--{<if condition="$vo.article_face_path neq null">}-->
+
+										<img src="<!--{:C('UPLOAD_PATH')}--><!--{$vo.article_face_path}-->"  style="height: 150px; width: 100%; display: block;">
+
+									  <!--{<else/>}-->
+
+										<img src="__PUBLIC__/Home/image/default.png"  style="height: 150px; width: 100%; display: block;">
+
+									  <!--{</if>}-->
+
+									  </a>
+
+									 <div class="panel panel-default aboutarticle">
+
+									  <div class="panel-body">
+
+										<a href="<!--{:U('Article/index','',false)}-->/id/<!--{$vo.article_id}-->" title="<!--{$vo.article_title}-->"><h4><small><!--{$vo.article_title|mb_substr=0,15,'utf-8'}-->...</small></h4></a>
+
+									  </div>
+
+									</div>
+
+									</div>
+
+								  </div>
+
+						<!--{</foreach>}-->
+
+							</div>
+
+				</div>
+
+			</div>
+
+			<!--{</if>}-->
+
+
+
+
+
+			<div class="panel panel-default">
+
+					<div class="panel-body ">
+
+						
+
+						<!-- 多说评论框 start
+
+							<div class="ds-thread" data-thread-key="article_key_{$Think.get.id}" data-title="{$ArticleInfo['article_title']}" data-url="{$thisurl}"></div>
+
+						 多说评论框 end
+
+						 多说公共JS代码 start (一个网页只需插入一次)
+
+						<script type="text/javascript">
+
+						var duoshuoQuery = {short_name:"zeroboy"};
+
+							(function() {
+
+								var ds = document.createElement('script');
+
+								ds.type = 'text/javascript';ds.async = true;
+
+								ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+
+								ds.charset = 'UTF-8';
+
+								(document.getElementsByTagName('head')[0] 
+
+								 || document.getElementsByTagName('body')[0]).appendChild(ds);
+
+							})();
+
+							</script>
+
+						 多说公共JS代码 end -->
+
+
+						<div id="SOHUCS" sid="<!--{$Think.get.id}-->" ></div>
+
+					</div>
+
+			</div>
+
+
+
+
+
+			</div>
+
+			<div class="col-sm-3">
+
+					<include file="Public/Home/tpl/main-right.html" />						
+
+			</div>
+
+		</div>
+
+<include file="Public/Home/tpl/footer.html" />
+
+<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+<script type="text/javascript">
+    window.changyan.api.config({
+        appid: 'cyt2w7YqF',
+        conf: '25569821c54acbe0286b08a9352b37df'
+    });
+</script>
+
+<script type="text/javascript">
+
+
+
+$('#imgshow').on('show.bs.modal', function (event) {
+
+  var button = $(event.relatedTarget) // Button that triggered the modal
+
+	console.log(button.find("img").attr("src"));
+
+	var src = button.find("img").attr("src");
+
+
+
+	var im  = document.createElement('img');
+
+		im.src  = src;
+
+	var docwidth = $(document).width();
+
+	var docheight = $(window).height();
+
+	var imgwidth = (im.width>=docwidth)?parseInt((docwidth*0.9).toFixed(2)):im.width;
+
+	var imgheight = (im.width>=docwidth)?parseInt(im.height*(imgwidth/im.width).toFixed(2)):im.height;
+
+
+
+	
+
+	$(".modal-content").html("<img src='"+src+"' id='modal-content-img' style='width:"+imgwidth+"px;height:"+imgheight+"'>");
+
+
+
+	var left = (docwidth-imgwidth)/2;
+
+	var top = (docheight-imgheight)/2;
+
+	$(".modal-content").css("width",imgwidth);
+
+	$(".modal-content").css("height",imgheight);
+
+	$("#imgshow").css({
+
+			  left: left,
+
+              right: left,       
+
+              //padding-top: top, 
+
+			  //bottom: (top-120),
+
+              //margin: "0 auto"
+
+        });
+
+	$(".modal-content").css("margin-top",top);
+
+	$(".modal-content").css("margin-bottom",(top-120));
+
+
+
+	console.log(docheight);
+
+	//console.log(imgheight);
+
+	//console.log(left);
+
+	//console.log(top);
+
+	//console.log(imgheight);
+
+	//console.log($(window).width());
+
+  })
+
+
+
+ 
+$(function(){	
+	var windowwidth = $(window).width();
+	if(windowwidth<750){
+		console.log($(window).width());
+		$(".blog-main").css("padding-right","20px");	
+	}else{
+		$(".blog-main").css("padding-right","60px");
+	}
+
+});
+</script>

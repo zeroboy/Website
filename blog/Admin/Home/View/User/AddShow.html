@@ -1,0 +1,52 @@
+<include file="Public/Admin/tpl/header.html" />
+	<!--{<if condition='$UserInfo neq null'>}-->
+	<form  action="<!--{:U('User/DoUpdate','',false)}-->" data-toggle="validate">
+	<!--{<else/>}-->
+	<form method="post" action="<!--{:U('User/DoAdd','',false)}-->" data-toggle="validate" >
+	<!--{</if>}-->
+
+		<table class="table table-bordered table-striped table-hover">
+		<tbody>
+				<tr>
+					<td>用户分组</td>
+					<td>
+						<select name="usercate" data-toggle="selectpicker" >
+						<!--{<foreach name="UserCateList" item="vo">}-->
+							<!--{<eq name="vo.usercate_id" value="$UserInfo['user_cate_id']">}-->
+								<option value="<!--{$vo.usercate_id}-->" selected>
+							<!--{<else/>}-->
+								<option value="<!--{$vo.usercate_id}-->">
+							<!--{</eq>}-->
+							<!--{$vo.usercate_name}-->
+							</option>
+						<!--{</foreach>}-->
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>用户名称</td>
+					<td>
+						<input type="text" name="username" value="<!--{$UserInfo.user_account}-->" data-rule="用户名称:required;length[1~];" class="form-control" >
+					</td>
+				</tr>
+				<tr>
+					<td>用户密码</td>
+					<td>
+						<input type="password" name="userpwd" value="" data-rule="用户密码:required;length[8~];" class="form-control" >
+						<input type="hidden" name="user_id" value="<!--{$UserInfo.user_id}-->" >
+					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+					<!--{<if condition='$UserInfo neq null'>}-->
+						<p class="text-center"><button type="submit" class="btn btn-default">修改用户</button></p>
+					<!--{<else/>}-->
+						<p class="text-center"><button type="submit" class="btn btn-default">添加用户</button></p>
+					<!--{</if>}-->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</form>
+<include file="Public/Admin/tpl/footer.html" />

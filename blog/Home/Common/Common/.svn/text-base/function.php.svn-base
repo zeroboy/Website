@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * 处理拼接分页.
+ * @param   current  当前页
+ * @param   size	 单页条数  
+ * @return	array 
+ */
+function GetQueryPage($current){
+	
+	$size = C("PAGESIZE");
+	$offset = ($current-1)*$size;//偏移量
+	$offset_length = $size;
+	$limit = $offset.",".$offset_length;
+
+	return array(
+			"limit"=>$limit,
+			"current"=>$current,
+			"size"=>$size	
+		);
+
+}
+
+
+/**
+ * 获取当前页全路径.  
+ * @return	string 
+ */
+ function GetUrl() {
+    $sys_protocal = isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
+    $php_self = $_SERVER['PHP_SELF'] ? $_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+    $path_info = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+    $relate_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $php_self.(isset($_SERVER['QUERY_STRING']) ? '?'.$_SERVER['QUERY_STRING'] : $path_info);
+    return $sys_protocal.(isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '').$relate_url;
+ }

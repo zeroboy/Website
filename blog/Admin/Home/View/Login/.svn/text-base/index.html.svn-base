@@ -1,0 +1,102 @@
+<include file="Public/Admin/tpl/header.html" />
+	<!-- CSS -->
+	<link rel="stylesheet" href="__PUBLIC__/Admin/css/login/reset.css">
+	<link rel="stylesheet" href="__PUBLIC__/Admin/css/login/supersized.css">
+	<link rel="stylesheet" href="__PUBLIC__/Admin/css/login/style.css">
+<style type="text/css">
+	 .verify{
+		margin:10px 0 0 0;
+		width:auto;
+		 background: #2d2d2d; /* browsers that don't support rgba */
+		background: rgba(45,45,45,.15);
+		-moz-border-radius: 6px;
+		-webkit-border-radius: 6px;
+		border-radius: 6px;
+		border: 1px solid #3d3d3d; /* browsers that don't support rgba */
+		border: 1px solid rgba(255,255,255,.15);
+		-moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		-webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+	 }
+	 .verify img{
+		border-radius: 6px;
+		border: 1px solid #3d3d3d; /* browsers that don't support rgba */
+		border: 1px solid rgba(255,255,255,.15);
+		-moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		-webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+		width:270px;
+		margin:5px 0;
+	 }
+</style>
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <body>
+
+        <div class="page-container">
+            <h1>零度先生博客后台</h1>
+            <form method="post" action="<!--{:U('Login/DoLogin','',false)}-->">
+                <input type="text" name="user" class="username" placeholder="用户名">
+                <input type="password" name="pwd" class="password" placeholder="密码">
+				<input type="text" name="verify" class="username" placeholder="验证码">
+				<div id="" class="verify username">
+					<img src="<!--{:U('Verify/CreateVerify/unique/1','',false)}-->" width="" height="" border="0" alt="" id="verifycode">	
+				</div>
+				
+                <button type="submit">登录</button>
+            </form>
+        </div>
+
+        <!-- Javascript -->
+        <script src="__PUBLIC__/Admin/js/login/supersized.3.2.7.min.js"></script>
+        <script src="__PUBLIC__/Admin/js/login/scripts.js"></script>
+		<script type="text/javascript">
+		
+		jQuery(function($){
+
+			$.supersized({
+
+				// Functionality
+				slide_interval     : 4000,    // Length between transitions
+				transition         : 1,    // 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+				transition_speed   : 1000,    // Speed of transition
+				performance        : 1,    // 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed // (Only works for Firefox/IE, not Webkit)
+
+				// Size & Position
+				min_width          : 0,    // Min width allowed (in pixels)
+				min_height         : 0,    // Min height allowed (in pixels)
+				vertical_center    : 1,    // Vertically center background
+				horizontal_center  : 1,    // Horizontally center background
+				fit_always         : 0,    // Image will never exceed browser width or height (Ignores min. dimensions)
+				fit_portrait       : 1,    // Portrait images will not exceed browser height
+				fit_landscape      : 0,    // Landscape images will not exceed browser width
+
+				// Components
+				slide_links        : 'blank',    // Individual links for each slide (Options: false, 'num', 'name', 'blank')
+				slides             : [    // Slideshow Images
+										 {image : '__PUBLIC__/Admin/image/backgrounds/1.jpg'},
+										 {image : '__PUBLIC__/Admin/image/backgrounds/2.jpg'},
+										 {image : '__PUBLIC__/Admin/image/backgrounds/3.jpg'},
+										 {image : '__PUBLIC__/Admin/image/backgrounds/4.jpg'}
+									 ]
+
+			});
+
+		});
+
+
+		$("#verifycode").click(function(){
+				console.log(123);
+				$(this).attr("src","<!--{:U('Verify/CreateVerify/unique/1/id/"+Math.random()+"','',false)}-->");
+			})
+
+
+		</script>
+
+ </body>
+
+</html>

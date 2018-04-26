@@ -1,0 +1,124 @@
+<?php
+// +----------------------------------------------------------------------
+// |  Author: MrZero
+// +----------------------------------------------------------------------
+// |  QQ : 2586073409
+// +----------------------------------------------------------------------
+// | Motto: People just walking shadow
+// +----------------------------------------------------------------------
+// | model: 文章详情页
+// +----------------------------------------------------------------------
+
+
+namespace Home\Controller;
+use Think\Controller;
+class ArticleController extends BaseController {
+
+	private $IndexObject;
+	private $ViewId;
+	public function __construct(){
+		
+		parent::__construct();
+		$this->IndexObject = new IndexController;
+
+		$this->ViewId = I('get.id');
+		if((!is_numeric($this->ViewId)) || (intval($this->ViewId)<=0)){
+				$this->error("非法操作！",'/');
+			die;
+		}
+
+		//监听
+		$this->ArticleViewListenEvent();
+	}
+
+	public function index(){
+		$Article = $this->GetArticle();
+		$Article = $this->FormatArticle($Article);
+
+		$ArticleAbout = $this->GetAbout();
+
+		$url = GetUrl();
+		$this->assign("ArticleInfo",$Article);
+
+		$this->assign("thisurl",$url);
+		$this->assign("ArticleAbout",$ArticleAbout);
+		$this->display("Article/index");
+	}
+
+	//
+	private function GetArticle(){
+
+		$id= $this->ViewId;
+		//非博客模板无详情页		$res = $this->IndexObject->ArticleModel->where("article_id=".$id)->field("article_tpl_type")->select();				if($res[0]['article_tpl_type'] != 1){						$this->redirect('/');		}		
+		$page = -1;
+		$where = "article_id=".$id;						
+		$data = $this->IndexObject->GetArticleList($page,$where);
+
+		return $data[0];
+	}
+
+	//格式化
+	private function FormatArticle($data){
+		
+		$data['article_content'] = htmlspecialchars_decode($data['article_content']);
+		preg_match_all('/<img.*?src="(.*?)".*?>/is',$data['article_content'],$all);
+
+		static $articlestr ;
+		$articlestr = $data['article_content'];
+		for($i=0;$i<count($all[0]);$i++){
+			$articlestr =  preg_replace('|<img.*?src="'.$all[1][$i].'".*?>|','<a style="cursor:pointer;" class="thumbnail" data-toggle="modal" data-target="#imgshow" ><img src=\''.$all[1][$i].'\' /> </a>',$articlestr);
+		}
+
+		 $data['article_content'] = $articlestr;
+
+		return $data;
+	}
+
+	//相关文章
+	private function GetAbout(){
+		
+		$id= $this->ViewId;
+
+		$data = $this->IndexObject->ArticleModel->where("article_id=".$id)->select();
+		$Article = $data[0];
+		$newdatarow = $this->IndexObject->ArticleModel->order("article_id desc")->limit("0,1")->select();
+		$articlenewid = $newdatarow[0]['article_id'];
+		$where2 = ($id == $articlenewid)?" and  article_id <".$id:" and  article_id >".$id;
+		$where = "article_cate_id = ".$Article['article_cate_id'].$where2;
+		$limit = "0,3";
+		$res = $this->IndexObject->ArticleModel->where($where)->limit($limit)->select();
+
+		//补齐
+		if(count($res)<3){
+			$data2 = $this->IndexObject->ArticleModel->where("article_cate_id = ".$Article['article_cate_id'])->limit("0,".(3-(count($res))))->select();
+			$return = array_merge($res,$data2);
+			return 	$return;
+		}
+
+		return $res;
+	}
+
+
+	//访问时监听事件
+	private function ArticleViewListenEvent(){
+		
+		//增加访问量
+		$this->AddRead();
+
+	}
+
+	//添加阅读数
+	private function AddRead(){
+		
+		$where = "article_id=".$this->ViewId;
+		$res = $this->IndexObject->ArticleModel->where($where)->setInc('article_look_acount');
+		return $res;
+	}
+
+
+
+
+}
+
+
+?>

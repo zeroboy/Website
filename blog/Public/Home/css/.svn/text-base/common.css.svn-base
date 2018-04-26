@@ -1,0 +1,5 @@
+
+@font-face { 
+  font-family: minicartoon; /*这里是说明调用来的字体名字*/ 
+  src: url('../font/minicartoon.TTF'); /*这里是字体文件路径*/ 
+} 
